@@ -102,7 +102,8 @@ export default class ServerModalForm extends Component {
   }
 
   mapStateToServer(state) {
-    const server = {
+    console.log("STATE", state);
+    let server = {
       name: state.name,
       client: state.client,
       ssl: !!state.ssl,
@@ -117,6 +118,7 @@ export default class ServerModalForm extends Component {
       // custom data not availbale trough the interface
       filter: state.filter,
     };
+    
     if (!this.state.ssh) { return server; }
 
     const { ssh } = state;
@@ -128,6 +130,7 @@ export default class ServerModalForm extends Component {
       privateKey: ssh.privateKey && ssh.privateKey.length ? ssh.privateKey : null,
       privateKeyWithPassphrase: !!ssh.privateKeyWithPassphrase,
     };
+    console.log("server after STATE", server);
 
     return server;
   }

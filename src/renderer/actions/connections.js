@@ -54,6 +54,11 @@ export function connect (id, databaseName, reconnecting = false, sshPassphrase) 
       if (!server) {
         throw new Error('Server configuration not found');
       }
+      console.log("server is", server);
+      if (server.client === 'bigquery') {
+        server.database = server.database + '||'  + server.socketPath;
+      }
+      console.log("now server is", server);
 
       defaultDatabase = sqlectron.db.CLIENTS.find(c => c.key === server.client).defaultDatabase;
       database = databaseName || server.database || defaultDatabase;
@@ -79,14 +84,19 @@ export function connect (id, databaseName, reconnecting = false, sshPassphrase) 
         }
         serverSession = sqlectron.db.createServer(server);
       }
-
+      console.log("creating dbConn with ", database);
       dbConn = serverSession.db(database);
+      console.log("dbConn", dbConn);
       if (dbConn) {
         dispatch({ type: CONNECTION_SUCCESS, server, database, config, reconnecting });
         return;
       }
+      
+      console.log("creating dbConn with", database);
 
       dbConn = serverSession.createConnection(database);
+      console.log("dbConn", dbConn);
+      
       await dbConn.connect();
 
       dispatch({ type: CONNECTION_SUCCESS, server, database, config, reconnecting });

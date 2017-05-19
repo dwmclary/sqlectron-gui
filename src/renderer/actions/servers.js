@@ -25,6 +25,7 @@ export function finisEditing() {
 
 
 export function saveServer ({ server, id }) {
+  console.log("server in saveServer", server);
   return async dispatch => {
     dispatch({ type: SAVE_SERVER_REQUEST, server });
     try {
