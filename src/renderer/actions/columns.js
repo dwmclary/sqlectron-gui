@@ -30,6 +30,7 @@ function fetchTableColumns (database, table, schema) {
     dispatch({ type: FETCH_COLUMNS_REQUEST, database, table });
     try {
       const dbConn = getDBConnByName(database);
+      console.log("fetching columns for", table, schema);
       const columns = await dbConn.listTableColumns(table, schema);
       dispatch({ type: FETCH_COLUMNS_SUCCESS, database, table, columns });
     } catch (error) {

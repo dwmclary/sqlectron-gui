@@ -2,6 +2,8 @@ import * as connTypes from '../actions/connections';
 import * as dbTypes from '../actions/databases';
 import * as queryTypes from '../actions/queries';
 import * as types from '../actions/schemas';
+import { fetchTablesIfNeeded, selectTablesForDiagram } from '../actions/tables';
+
 
 
 const INITIAL_STATE = {
@@ -28,6 +30,19 @@ export default function (state = INITIAL_STATE, action) {
     case types.FETCH_SCHEMAS_SUCCESS: {
       return {
         ...state,
+        isFetching: false,
+        didInvalidate: false,
+        itemsByDatabase: {
+          ...state.itemsByDatabase,
+          [action.database]: action.schemas.map(name => ({ name })),
+        },
+        error: null,
+      };
+    }
+    case types.FETCH_SCHEMAS_BQ_SUCCESS: {
+      return {
+        ...state,
+        filtersToCall: action.schemas.map(name => (dispatch(fetchTablesIfNeeded(action.database, name)))), 
         isFetching: false,
         didInvalidate: false,
         itemsByDatabase: {

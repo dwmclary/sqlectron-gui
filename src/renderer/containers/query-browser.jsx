@@ -12,6 +12,7 @@ import * as QueryActions from '../actions/queries';
 import * as DbAction from '../actions/databases';
 import { fetchTablesIfNeeded, selectTablesForDiagram } from '../actions/tables';
 import { fetchSchemasIfNeeded } from '../actions/schemas';
+import { fetchAdditionalBQSchemas } from '../actions/schemas';
 import { fetchTableColumnsIfNeeded } from '../actions/columns';
 import { fetchTableTriggersIfNeeded } from '../actions/triggers';
 import { fetchTableIndexesIfNeeded } from '../actions/indexes';
@@ -114,14 +115,18 @@ class QueryBrowserContainer extends Component {
     }
 
     const lastConnectedDB = connections.databases[connections.databases.length - 1];
-    const filter = connections.server.filter;
+    let filter = connections.server.filter;
+    if (connections.server.client === 'bigquery') {
 
+        filter = {schema: connections.server.schema};
+    } 
     dispatch(DbAction.fetchDatabasesIfNeeded(filter));
     dispatch(fetchSchemasIfNeeded(lastConnectedDB));
     dispatch(fetchTablesIfNeeded(lastConnectedDB, filter));
+    dispatch(fetchTablesIfNeeded(lastConnectedDB, filter));
     dispatch(fetchViewsIfNeeded(lastConnectedDB, filter));
     dispatch(fetchRoutinesIfNeeded(lastConnectedDB, filter));
-
+  
     this.setMenus();
   }
 

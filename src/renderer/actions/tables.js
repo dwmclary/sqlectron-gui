@@ -31,12 +31,16 @@ function shouldFetchTables (state, database) {
 
 
 function fetchTables (database, filter) {
+  console.log("database to fetch for", database);
+  console.log("filter on fetch", filter);
   return async (dispatch, getState) => {
     dispatch({ type: FETCH_TABLES_REQUEST, database });
     try {
       const dbConn = getCurrentDBConn(getState());
       const tables = await dbConn.listTables(filter);
       dispatch({ type: FETCH_TABLES_SUCCESS, database, tables });
+      console.log("tables from fetchTables", tables);
+      
     } catch (error) {
       dispatch({ type: FETCH_TABLES_FAILURE, error });
     }

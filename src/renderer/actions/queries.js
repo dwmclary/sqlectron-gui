@@ -175,7 +175,12 @@ function executeQuery (query, isDefaultSelect = false, dbConnection, queryId) {
     try {
       const dbConn = dbConnection || getCurrentDBConn(getState());
       executingQueries[queryId] = dbConn.query(query);
-      const remoteResult = await executingQueries[queryId].execute();
+      let remoteResult = {};
+      if (dbConn.client.isBigQuery()) {
+        remoteResult = await executingQueries[queryId];
+      } else {
+        remoteResult = await executingQueries[queryId].execute();
+      }
 
       // Remove any "reference" to the remote IPC object
       const results = cloneDeep(remoteResult);
