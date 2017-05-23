@@ -176,7 +176,7 @@ function executeQuery (query, isDefaultSelect = false, dbConnection, queryId) {
       const dbConn = dbConnection || getCurrentDBConn(getState());
       executingQueries[queryId] = dbConn.query(query);
       let remoteResult = {};
-      if (dbConn.client.isBigQuery()) {
+      if (typeof(dbConn.client.projectId) != 'undefined') {
         remoteResult = await executingQueries[queryId];
       } else {
         remoteResult = await executingQueries[queryId].execute();
