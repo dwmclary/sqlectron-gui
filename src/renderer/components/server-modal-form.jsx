@@ -316,7 +316,7 @@ export default class ServerModalForm extends Component {
               onChange={::this.handleChange} />
           </div>
           <div className={`four wide field ${this.highlightError('database')}`}>
-            <label>Database/Keyspace</label>
+            <label>Database/Keyspace/Project ID</label>
             <input type="text"
               name="database"
               placeholder="Database"
@@ -324,7 +324,7 @@ export default class ServerModalForm extends Component {
               onChange={::this.handleChange} />
           </div>
           <div className={`four wide field ${this.highlightError('schema')}`}>
-            <label>Schema</label>
+            <label>Schema/Datasets</label>
             <input type="text"
               name="schema"
               maxLength="100"
