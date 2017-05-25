@@ -56,7 +56,8 @@ export function connect (id, databaseName, reconnecting = false, sshPassphrase) 
       }
       console.log("server is", server);
       if (server.client === 'bigquery') {
-        server.database = server.database + '||'  + server.socketPath;
+        server.database = (server.database + '||'  
+		  + server.socketPath).split('||').slice(0,2).join('||');
       }
       console.log("now server is", server);
 
