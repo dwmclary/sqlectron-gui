@@ -38,7 +38,6 @@
       "depends": [],
       "target": [
         "deb",
-        "rpm",
         "sh",
         "freebsd",
         "pacman",
@@ -74,7 +73,9 @@
     "build:win": "npm run clean:win && build --windows",
     "dist": "npm run compile && build",
     "dist:all-arch": "npm run compile && build --ia32 --x64",
-    "dist:winlinux": "npm run compile && npm run build:linux && npm run build:win"
+    "dist:win": "npm run compile && npm run build:win",
+    "dist:winlinux": "npm run compile && npm run build:linux && npm run build:win",
+    "rebuild": "electron-rebuild -f -w sqlite3"
   },
   "dependencies": {
     "axios": "^0.7.0",
@@ -82,7 +83,9 @@
     "babel-polyfill": "^6.22.0",
     "bunyan": "^1.8.5",
     "lodash.defaultsdeep": "^4.6.0",
-    "sqlectron-core": "file:/Users/dwmclary/sqlectron-core"
+    "react": "^15.5.4",
+    "sqlectron-core": "git+http://github.com/dwmclary/sqlectron-core.git",
+    "sqlite3": "^3.1.8"
   },
   "devDependencies": {
     "autoprefixer-loader": "^3.2.0",
@@ -107,6 +110,7 @@
     "denodeify": "^1.2.1",
     "electron": "^1.4.15",
     "electron-builder": "^11.3.0",
+    "electron-rebuild": "^1.5.11",
     "eslint": "^2.13.1",
     "eslint-config-airbnb": "^9.0.1",
     "eslint-config-airbnb-base": "^3.0.1",
